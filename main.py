@@ -86,7 +86,7 @@ def show_weather(city, api_key):
 # ---------- INPUTS ----------
 
 #----- City by user:---
-city = st.text_input("Enter a city name and press 'Enter' : ", placeholder="For Example: Haifa").strip().lower()
+city = st.text_input("Enter a city name and press 'Enter' : ", placeholder="For Example: London").strip().lower()
 
 #---- Preferred Units  ---
 unit_temp = ["°C", "°F"]
