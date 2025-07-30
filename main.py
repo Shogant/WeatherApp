@@ -86,7 +86,7 @@ def show_weather(city, api_key):
 # ---------- INPUTS ----------
 
 #----- City by user:---
-city = st.text_input("Enter a city name and press 'Enter' : ", placeholder="For Example: London").strip().lower()
+city = st.text_input("Enter a city name and press 'Enter' : ", placeholder="For Example: Haifa").strip().lower()
 
 #---- Preferred Units  ---
 unit_temp = ["°C", "°F"]
@@ -105,7 +105,7 @@ st.markdown(f"Your selected options: {selection}.")
 # ---------- API Execution ----------
 if len(city) == 0:
     st.info("Enter a city name above to view the weather and city info.")
-    show_weather("London", api_key)
+    show_weather("Haifa", api_key)
 else:
     with st.spinner("Loading..."):
         show_weather(city, api_key)
