@@ -2,18 +2,21 @@ import streamlit as st
 import datetime
 import requests
 import wikipedia
+from streamlit_extras.let_it_rain import rain
 
+# ============= Keys & Constants =============
+api_key = "40ba2c4079b0ff1737c2229b6bc323ea"
+default_city = "London"
 
-# ---------- web page naming ----------
-st.set_page_config(page_title="Tanya's Weather App", page_icon="🌤️", layout="wide")
+# ---------- Web Tab  ----------
+st.set_page_config(page_title="Tanya's Weather App", page_icon="🌦️", layout="wide")
 
 # ---------- HEADER ----------
-st.title(" My Weather App")
+st.title(" 🌦️ My Weather App")
 st.subheader( "Welcome to Weather App Get real-time weather + city info")
 st.divider()
 
 # ---------- API Key  ----------
-api_key = "40ba2c4079b0ff1737c2229b6bc323ea"
 
 # Define the weather display function outside the if-block
 def show_weather(city, api_key):
@@ -50,8 +53,18 @@ def show_weather(city, api_key):
                 st.metric("💨 Wind Speed", f"{wind_speed} m/s")
                 st.write(f"🌥️ **Condition:** {weather_desc.capitalize()}")
 
-            # Emoji Rain Effects
-            # Example: weather_main = "Rain" (from your weather API)
+        # Emoji Rain Effects
+        # Example: weather_main = "Rain" (from your weather API)
+
+        if st.button("🌈 Show Weather Animation"):
+            if "rain" in weather_main.lower():
+                rain(emoji="🌧️", font_size=36, falling_speed=5)
+            elif "snow" in weather_main.lower():
+                rain(emoji="❄️", font_size=36, falling_speed=4)
+            elif "clear" in weather_main.lower():
+                rain(emoji="☀️", font_size=36, falling_speed=3)
+            elif "cloud" in weather_main.lower():
+                rain(emoji="☁️", font_size=36, falling_speed=2)
 
         with right_col:
             st.subheader(f"🗺️ {city.title()} on the Map")
@@ -93,7 +106,7 @@ st.markdown(f"Your selected options: {selection}.")
 # ---------- API Execution ----------
 if len(city) == 0:
     st.info("Enter a city name above to view the weather and city info.")
-    show_weather("Haifa", api_key)
+    show_weather(default_city, api_key)
 else:
     with st.spinner("Loading..."):
         show_weather(city, api_key)
