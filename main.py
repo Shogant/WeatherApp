@@ -2,7 +2,7 @@ import streamlit as st
 import datetime
 import requests
 import wikipedia
-from streamlit_extras.let_it_rain import rain
+import streamlit_extras
 
 # ============= Keys & Constants =============
 api_key = "40ba2c4079b0ff1737c2229b6bc323ea"
