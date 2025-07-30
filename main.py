@@ -6,7 +6,6 @@ from streamlit_extras.let_it_rain import rain
 
 # ============= Keys & Constants =============
 api_key = "40ba2c4079b0ff1737c2229b6bc323ea"
-default_city = "London"
 
 # ---------- Web Tab  ----------
 st.set_page_config(page_title="Tanya's Weather App", page_icon="🌦️", layout="wide")
@@ -106,7 +105,7 @@ st.markdown(f"Your selected options: {selection}.")
 # ---------- API Execution ----------
 if len(city) == 0:
     st.info("Enter a city name above to view the weather and city info.")
-    show_weather(default_city, api_key)
+    show_weather("London", api_key)
 else:
     with st.spinner("Loading..."):
         show_weather(city, api_key)
