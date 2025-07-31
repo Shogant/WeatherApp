@@ -11,7 +11,7 @@ from streamlit_extras.let_it_rain import rain
 
 # ---------- API Key  ----------
 api_key = "40ba2c4079b0ff1737c2229b6bc323ea"
-city ="Paris"
+city ="Haifa"
 temp_selection = "°C"
 speed_selection = "m/s"
 
