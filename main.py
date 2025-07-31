@@ -29,7 +29,6 @@ st.subheader( "Welcome to Weather App Get real-time weather + city info")
 st.divider()
 
 
-
 # ================================================
 #     ------------- Functions -------------
 # ================================================
@@ -119,24 +118,28 @@ def get_weather(city,api_key, temp_selection, speed_selection):
 #     ------------- User Inputs: -------------
 # ================================================
 
-#----- City by user:---
-city = st.text_input("Enter a city name and press 'Enter' : ", placeholder="For Example: Haifa").strip().lower()
+st.info("Enter a city name and complete your unit preferences :")
+
+left_input_col, right_input_col = st.columns([1, 1])
+
+with left_input_col:
+    #----- City by user:---
+    city = st.text_input("Enter a city name and press 'Enter' : ", placeholder="For Example: Haifa").strip().lower()
 
 
+with right_input_col:
+    #---- Preferred Units  ---
+    unit_temp = ["°C", "°F"]
+    temp_selection = st.segmented_control("Select Temperature Units : ", unit_temp, selection_mode="single")
+    st.markdown(f"Your selected options: {temp_selection}.")
 
-#---- Preferred Units  ---
-unit_temp = ["°C", "°F"]
-temp_selection = st.segmented_control("Select Temperature Units : ", unit_temp, selection_mode="single")
-st.markdown(f"Your selected options: {temp_selection}.")
-
-unit_speed = ["m/s", "km/h"]
-speed_selection = st.segmented_control("Select Wind Speed Units :", unit_speed, selection_mode="single")
-st.markdown(f"Your selected options: {speed_selection}.")
+    unit_speed = ["m/s", "km/h"]
+    speed_selection = st.segmented_control("Select Wind Speed Units :", unit_speed, selection_mode="single")
+    st.markdown(f"Your selected options: {speed_selection}.")
 
 
 # ---------- API Execution ----------
 if len(city) == 0:
-    st.info("Enter a city name above to view the weather and city info.")
     get_weather("Haifa" ,api_key, "°C", "m/s")
 else:
     with st.spinner("Loading..."):
