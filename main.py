@@ -121,9 +121,11 @@ def get_weather(city,api_key, temp_selection, speed_selection):
 st.info("Enter a city name and complete your unit preferences :")
 
 #----- City by user:---
-city = st.text_input("Enter a city name and press 'Enter' : ", placeholder="For Example: Haifa").strip().lower()
+col0 = st.columns(1):
+with col0:
+    city = st.text_input("Enter a city name and press 'Enter' : ", placeholder="For Example: Haifa").strip().lower()
 
-col1, col2 = st.columns([1, 1])
+col1, col2 = st.columns([0.2, 0.2])
 with col1 :
 #---- Preferred Units  ---
     unit_temp = ["°C", "°F"]
@@ -135,7 +137,7 @@ with col2 :
     speed_selection = st.segmented_control("Select Wind Speed Units :", unit_speed, selection_mode="single")
     st.markdown(f"Your selected options: {speed_selection}.")
 
-  
+
 # ---------- API Execution ----------
 if len(city) == 0:
     get_weather("Haifa" ,api_key, "°C", "m/s")
