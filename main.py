@@ -121,9 +121,8 @@ def get_weather(city,api_key, temp_selection, speed_selection):
 st.info("Enter a city name and complete your unit preferences :")
 
 #----- City by user:---
-col0 = st.columns(1):
-with col0:
-    city = st.text_input("Enter a city name and press 'Enter' : ", placeholder="For Example: Haifa").strip().lower()
+
+city = st.text_input("Enter a city name and press 'Enter' : ", placeholder="For Example: Haifa").strip().lower()
 
 col1, col2 = st.columns([0.2, 0.2])
 with col1 :
