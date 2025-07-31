@@ -124,7 +124,7 @@ st.info("Enter a city name and complete your unit preferences :")
 
 city = st.text_input("Enter a city name and press 'Enter' : ", placeholder="For Example: Haifa").strip().lower()
 
-col1, col2 = st.columns([0.2, 0.2])
+col1, col2 = st.columns([0.2, 0.8])
 with col1 :
 #---- Preferred Units  ---
     unit_temp = ["°C", "°F"]
