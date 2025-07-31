@@ -11,7 +11,9 @@ from streamlit_extras.let_it_rain import rain
 
 # ---------- API Key  ----------
 api_key = "40ba2c4079b0ff1737c2229b6bc323ea"
-
+city ="Paris"
+temp_selection = "°C"
+speed_selection = "m/s"
 
 
 # ================================================
@@ -141,7 +143,7 @@ with col_uspeed :
 
 # ---------- API Execution ----------
 if len(city) == 0:
-    get_weather("Haifa" ,api_key, "°C", "m/s")
+    get_weather(city,api_key, temp_selection, speed_selection)
 else:
     with st.spinner("Loading..."):
         get_weather(city,api_key, temp_selection, speed_selection)
