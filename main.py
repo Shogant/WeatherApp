@@ -77,9 +77,9 @@ def get_weather(city,api_key, temp_selection, speed_selection):
                 st.image(icon_url)
 
             with col2:
-                st.metric("🌡️ Temperature", f"{temperature} °C")
+                st.metric("🌡️ Temperature", f"{temperature} {temp_selection}")
                 st.metric("💧 Humidity", f"{humidity}%")
-                st.metric("💨 Wind Speed", f"{wind_speed} m/s")
+                st.metric("💨 Wind Speed", f"{wind_speed} {speed_selection}")
                 st.write(f"🌥️ **Condition:** {weather_desc.capitalize()}")
 
         # ----------- Emoji Rain Effects--------------------
