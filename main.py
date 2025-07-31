@@ -71,7 +71,7 @@ def get_weather(city,api_key, temp_selection, speed_selection):
             st.success(f"Weather for {city.title()}, {country}")
             st.write(f"📅 **Date:** {datetime.date.today().strftime('%A, %d %B %Y')}")
 
-            col1, col2, col3 = st.columns([1, 3])
+            col1, col2, col3 = st.columns([1, 3, 1])
 
             with col1:
                 st.image(icon_url)
@@ -137,7 +137,7 @@ st.markdown(f"Your selected options: {speed_selection}.")
 # ---------- API Execution ----------
 if len(city) == 0:
     st.info("Enter a city name above to view the weather and city info.")
-    get_weather("Haifa" ,api_key, temp_selection, speed_selection)
+    get_weather("Haifa" ,api_key, "°C", "m/s")
 else:
     with st.spinner("Loading..."):
         get_weather(city,api_key, temp_selection, speed_selection)
