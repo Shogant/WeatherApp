@@ -137,10 +137,10 @@ st.markdown(f"Your selected options: {speed_selection}.")
 # ---------- API Execution ----------
 if len(city) == 0:
     st.info("Enter a city name above to view the weather and city info.")
-    get_weather("Haifa", api_key)
+    get_weather("Haifa" ,api_key, temp_selection, speed_selection)
 else:
     with st.spinner("Loading..."):
-        get_weather(city, api_key)
+        get_weather(city,api_key, temp_selection, speed_selection)
 
 
 # ---------- FOOTER ----------
