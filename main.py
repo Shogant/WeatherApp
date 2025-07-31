@@ -133,11 +133,15 @@ with col_utemp :
     unit_temp = ["°C", "°F"]
     temp_selection = st.segmented_control("Select Temperature Units : ", unit_temp, selection_mode="single")
     st.markdown(f"Your selected options: {temp_selection}.")
+    if not temp_selection:
+        temp_selection = "°C"
 
 with col_uspeed :
     unit_speed = ["m/s", "km/h"]
     speed_selection = st.segmented_control("Select Wind Speed Units :", unit_speed, selection_mode="single")
     st.markdown(f"Your selected options: {speed_selection}.")
+    if not speed_selection:
+        speed_selection = "km/h"
 
 
 # ---------- API Execution ----------
@@ -145,7 +149,7 @@ if len(city) == 0:
     get_weather("Haifa" ,api_key, "°C", "m/s")
 else:
     with st.spinner("Loading..."):
-        get_weather(city,api_key, temp_selection = "°C", speed_selection= "m/s")
+        get_weather(city,api_key, temp_selection, speed_selection)
 
 
 # ---------- FOOTER ----------
