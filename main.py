@@ -125,6 +125,8 @@ col0, col1 = st.columns([0.4, 0.6])
 with col0:
     city = st.text_input("Enter a city name and press 'Enter' : ", placeholder="For Example: Haifa").strip().lower()
 
+with col1:
+
 col2, col3 = st.columns([0.2, 0.8])
 with col1 :
 #---- Preferred Units  ---
