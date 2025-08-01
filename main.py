@@ -3,8 +3,6 @@ import datetime
 import requests
 from streamlit_extras.let_it_rain import rain
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
 
 
 # ============================================
@@ -160,16 +158,8 @@ def get_weekly_forcast (city, api_key):
 
 # ----- Plot using the forcast results :
 
-    df = pd.DataFrame({"Date": dates,"Avg Temperature (°C)": daily_temps}) # set df
-    plt.figure(figsize=(10, 5))
-    sns.lineplot(data=df, x="Date", y="Avg Temperature (°C)", marker="o")
-    plt.title("Weekly Average Temperature")
-    plt.xlabel("Date")
-    plt.ylabel("Avg Temperature (°C)")
-    plt.xticks(rotation=45)
-    plt.grid(True)
+    # df = pd.DataFrame({"Date": dates,"Avg Temperature (°C)": daily_temps}) # set df
 
-    st.pyplot(plt)
 #========================================== Main ========================================================
 
 
