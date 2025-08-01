@@ -1,8 +1,10 @@
 import streamlit as st
 import datetime
 import requests
-import wikipedia
 from streamlit_extras.let_it_rain import rain
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 
 # ============================================
@@ -56,10 +58,10 @@ def get_weather(city,api_key, temp_selection, speed_selection):
         # ----- Results Units Conversion ------
 
         if temp_selection == "°F":
-            temperature = (temperature * 9/5) + 32
+            temperature = round((temperature * 9/5) + 32,2)
 
         if speed_selection == "km/h":
-            wind_speed = (wind_speed * 3.6)
+            wind_speed = round((wind_speed * 3.6), 2)
 
         #----------------------------------------
 
@@ -99,17 +101,75 @@ def get_weather(city,api_key, temp_selection, speed_selection):
             st.map(data={"lat": [lat], "lon": [lon]})
 
             st.subheader("📘 Did you know ?")
-            try:
-                search_term = f"{city}, {country}"
-                summary = wikipedia.summary(search_term, sentences=3)
-                st.write(summary)
 
-            except wikipedia.exceptions.PageError:
-                st.warning(f"No Wikipedia page found for '{city}, {country}'.")
+
     else:
         st.error("⚠️ Could not retrieve data. Please check the city name.")
 
 
+
+
+# ---------------- Get Forcast ------------------------
+
+def get_weekly_forcast (city, api_key):
+    url = f"https://api.openweathermap.org/data/2.5/forecast?q={city}&appid={api_key}&units=metric"
+    response = requests.get(url)
+
+    if response.status_code != 200:
+        print("Could not retrieve forecast data. Please try again later.")
+        exit()
+
+    forcast_data = response.json()
+
+    st.subheader("🌤️ 5-Day Forecast")
+
+    daily_data ={} # define empty list, get days from json
+
+    for item in forcast_data["list"]:
+        date = datetime.datetime.fromtimestamp(item["dt"]).date() #unix notation convertion
+        if date not in daily_data:
+            daily_data[date] = [] #group by day, and create empty list for each day
+        daily_data[date].append(item)  # populate with the relevant item
+
+    # Limit to next 5 days
+    days = list(daily_data.keys())[:5]
+    cols = st.columns(len(days))
+
+    dates = []
+    daily_temps = []
+
+    for i, day in enumerate(days):
+        with cols[i]:
+            entries = daily_data[day]
+            temps = [entry["main"]["temp"] for entry in entries]
+            descriptions = [entry["weather"][0]["description"] for entry in entries]
+            icons = [entry["weather"][0]["icon"] for entry in entries]
+
+            avg_temp = round(sum(temps) / len(temps), 1)
+            description = max(set(descriptions), key=descriptions.count)
+            icon_url = f"http://openweathermap.org/img/wn/{icons[0]}@2x.png"
+
+            st.markdown(f"### {day.strftime('%a %d %b')}")
+            st.image(icon_url)
+            st.write(f"**{description.capitalize()}**")
+            st.write(f"🌡️ Average Temperature : {avg_temp} °C")
+
+            dates.append(day.strftime('%a %d %b'))
+            daily_temps.append(avg_temp)
+
+
+# ----- Plot using the forcast results :
+
+    df = pd.DataFrame({"Date": dates,"Avg Temperature (°C)": daily_temps}) # set df
+    plt.figure(figsize=(10, 5))
+    sns.lineplot(data=df, x="Date", y="Avg Temperature (°C)", marker="o")
+    plt.title("Weekly Average Temperature")
+    plt.xlabel("Date")
+    plt.ylabel("Avg Temperature (°C)")
+    plt.xticks(rotation=45)
+    plt.grid(True)
+
+    st.pyplot(plt)
 #========================================== Main ========================================================
 
 
@@ -122,7 +182,7 @@ st.info("Enter a city name and complete your unit preferences :")
 
 #----- City by user:---
 
-col_input, col_utemp, col_uspeed  = st.columns([0.2, 0.2, 0.6 ])
+col_input, col_utemp, col_uspeed  = st.columns([0.4, 0.2, 0.6 ])
 with col_input:
     city = st.text_input("Enter a city name and press 'Enter' : ", placeholder="For Example: Haifa").strip().lower()
 
@@ -150,7 +210,9 @@ if len(city) == 0:
 else:
     with st.spinner("Loading..."):
         get_weather(city,api_key, temp_selection, speed_selection)
+        get_weekly_forcast(city, api_key)
 
+st.divider()
 
 # ---------- FOOTER ----------
 st.divider()
