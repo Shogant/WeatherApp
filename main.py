@@ -32,7 +32,11 @@ st.divider()
 # ================================================
 #     ------------- Functions -------------
 # ================================================
+# 1. get_weather - daily weather parameters for location
+# 2. get_weekly_forcast - 5 days forcast
 
+
+# ------------- Function (1) : get_weather -----------------------------------------------------
 
 def get_weather(city,api_key, temp_selection, speed_selection):
     url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
@@ -81,7 +85,7 @@ def get_weather(city,api_key, temp_selection, speed_selection):
                 st.metric("💨 Wind Speed", f"{wind_speed} {speed_selection}")
                 st.write(f"🌥️ **Condition:** {weather_desc.capitalize()}")
 
-        # ----------- Emoji Rain Effects--------------------
+        # ----------- Streamlit Extra - Emoji Rain Effects --------------------
         # Example: weather_main = "Rain" (from your weather API)
             with col3:
                 if st.button("🌈 Show Weather Animation"):
@@ -104,9 +108,11 @@ def get_weather(city,api_key, temp_selection, speed_selection):
 
 
 
-# ---------------- Get Forcast ------------------------
+# ------------- Function (2) : get_weekly_forcast -----------------------------------------------------
 
 def get_weekly_forcast (city, api_key):
+
+    # API result is 5 day forcast in 3 hrs intervals:
     url = f"https://api.openweathermap.org/data/2.5/forecast?q={city}&appid={api_key}&units=metric"
     response = requests.get(url)
 
@@ -118,38 +124,42 @@ def get_weekly_forcast (city, api_key):
 
     st.subheader("🌤️ 5-Day Forecast")
 
-    daily_data ={} # define empty list, get days from json
+# -------- JSON hourly results into days data -----
+
+    daily_data ={} # define empty dictionary, group JSON data per day:
 
     for item in forcast_data["list"]:
-        date = datetime.datetime.fromtimestamp(item["dt"]).date() #unix notation convertion
+        date = datetime.datetime.fromtimestamp(item["dt"]).date() #unix timestamp convertion to date
         if date not in daily_data:
-            daily_data[date] = [] #group by day, and create empty list for each day
-        daily_data[date].append(item)  # populate with the relevant item
+            daily_data[date] = []  #if new day - create an empty list for it, to be populated with the 3 hr data.
+        daily_data[date].append(item)  # populate with item.
 
-    # Limit to next 5 days
+    # Limit to 5 days forcast :
     days = list(daily_data.keys())[:5]
     cols = st.columns(len(days))
 
+    # # create for cast view like in the news : ##
     dates = []
     daily_temps = []
 
     for i, day in enumerate(days):
         with cols[i]:
             entries = daily_data[day]
-            temps = [entry["main"]["temp"] for entry in entries]
-            descriptions = [entry["weather"][0]["description"] for entry in entries]
-            icons = [entry["weather"][0]["icon"] for entry in entries]
+            temps = [entry["main"]["temp"] for entry in entries] # all temps per day
+            descriptions = [entry["weather"][0]["description"] for entry in entries] # all descriptions per day
+            icons = [entry["weather"][0]["icon"] for entry in entries] # all icons per day
 
-            avg_temp = round(sum(temps) / len(temps), 1)
-            description = max(set(descriptions), key=descriptions.count)
-            icon_url = f"http://openweathermap.org/img/wn/{icons[0]}@2x.png"
+            avg_temp = round(sum(temps) / len(temps), 1) #avg temp
+            description = max(set(descriptions), key=descriptions.count) # most repeatable desc per day
+            icon = max(set(icons), key=icons.count) #most repeatable icon
+            icon_url = f"http://openweathermap.org/img/wn/{icon}@2x.png" # get that icon per url
 
             st.markdown(f"### {day.strftime('%a %d %b')}")
             st.image(icon_url)
             st.write(f"**{description.capitalize()}**")
-            st.write(f"🌡️ Average Temperature : {avg_temp} °C")
+            st.write(f" Average Temperature : {avg_temp} °C")
 
-            dates.append(day.strftime('%d/%m/%y'))
+            dates.append(day.strftime('%d/%m/%y')) # switch format fot the chart
             daily_temps.append(avg_temp)
 
 
