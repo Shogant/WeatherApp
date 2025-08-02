@@ -1,4 +1,4 @@
-# WeatherApp
+# MyWeatherApp
 
 Welcome to my first ever web app!
 - https://shogantweatherapp.streamlit.app/
