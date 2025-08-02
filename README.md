@@ -5,7 +5,8 @@ Welcome to my first ever web app!
 ---
 
 ## About The App:
-I know you dont need one, but here we are, so might as well check it out.. \n
+I know you dont need one, but here we are, so might as well check it out..
+
 This weather app provides daily weather information for any city, including temperature, wind speed, humidity, and a location map view. 
 It also offers a 5-day weather forecast with graphical trends and fun interactive features to make the experience engaging.
 
