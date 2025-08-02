@@ -36,7 +36,14 @@ st.divider()
 # 2. get_weekly_forcast - 5 days forcast
 
 
-# ------------- Function (1) : get_weather -----------------------------------------------------
+# ------------- Function (1) : temp conversion  -----------------------------------------------------
+
+def convert_temperature(temp_celsius, unit):
+    if unit == "°F":
+        return round((temp_celsius * 9/5) + 32, 1)
+    return round(temp_celsius, 1)
+
+# ------------- Function (2) : get_weather -----------------------------------------------------
 
 def get_weather(city,api_key, temp_selection, speed_selection):
     url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
@@ -59,8 +66,10 @@ def get_weather(city,api_key, temp_selection, speed_selection):
 
         # ----- Results Units Conversion ------
 
-        if temp_selection == "°F":
-            temperature = round((temperature * 9/5) + 32,2)
+
+        temperature = convert_temperature(temperature, temp_selection)
+
+        #     temperature = round((temperature * 9/5) + 32,2)
 
         if speed_selection == "km/h":
             wind_speed = round((wind_speed * 3.6), 2)
@@ -102,6 +111,8 @@ def get_weather(city,api_key, temp_selection, speed_selection):
             st.subheader(f"🗺️ {city.title()} on the Map")
             st.map(data={"lat": [lat], "lon": [lon]})
 
+        get_weekly_forcast(city, api_key, temp_selection)
+
     else:
         st.error("⚠️ Could not retrieve data. Please check the city name.")
 
@@ -110,7 +121,7 @@ def get_weather(city,api_key, temp_selection, speed_selection):
 
 # ------------- Function (2) : get_weekly_forcast -----------------------------------------------------
 
-def get_weekly_forcast (city, api_key):
+def get_weekly_forcast (city, api_key, temp_selection):
 
     # API result is 5 day forcast in 3 hrs intervals:
     url = f"https://api.openweathermap.org/data/2.5/forecast?q={city}&appid={api_key}&units=metric"
@@ -122,7 +133,8 @@ def get_weekly_forcast (city, api_key):
 
     forcast_data = response.json()
 
-    st.subheader("🌤️ 5-Day Forecast")
+    st.divider()
+    st.subheader( " 5-Day Forecast View 📆 :")
 
 # -------- JSON hourly results into days data -----
 
@@ -150,6 +162,8 @@ def get_weekly_forcast (city, api_key):
             icons = [entry["weather"][0]["icon"] for entry in entries] # all icons per day
 
             avg_temp = round(sum(temps) / len(temps), 1) #avg temp
+            avg_temp = convert_temperature(avg_temp, temp_selection)
+
             description = max(set(descriptions), key=descriptions.count) # most repeatable desc per day
             icon = max(set(icons), key=icons.count) #most repeatable icon
             icon_url = f"http://openweathermap.org/img/wn/{icon}@2x.png" # get that icon per url
@@ -157,22 +171,30 @@ def get_weekly_forcast (city, api_key):
             st.markdown(f"### {day.strftime('%a %d %b')}")
             st.image(icon_url)
             st.write(f"**{description.capitalize()}**")
-            st.write(f" Average Temperature : {avg_temp} °C")
+            st.write(f" Average Temperature : {avg_temp} {temp_selection}")
 
             dates.append(day.strftime('%d/%m/%y')) # switch format fot the chart
             daily_temps.append(avg_temp)
 
 
 # ----- Plot using the forcast results :
+    st.divider()
+    st.subheader( "Temperature Trend View Per Day 📈 :")
 
+
+    st.markdown(f"Temperature [{temp_selection}]")
     df = pd.DataFrame({
         "Date": dates,
-        "Avg Temperature (°C)": daily_temps
+        "Avg Temperature": daily_temps
     })
 
-    df.set_index("Date", inplace=True)  # Make Date the X-axis
+    df.set_index("Date", inplace=True)  # x- date, Y- temps
     st.line_chart(df)
 
+    with st.container():
+        left, center, right = st.columns([2, 1, 1])
+        with center:
+            st.write("day")
 
 # =======================================================================================================
 #========================================== Main ========================================================
@@ -215,7 +237,6 @@ if len(city) == 0:
 else:
     with st.spinner("Loading..."):
         get_weather(city,api_key, temp_selection, speed_selection)
-        get_weekly_forcast(city, api_key)
 
 st.divider()
 
