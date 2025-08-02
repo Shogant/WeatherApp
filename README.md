@@ -22,4 +22,5 @@ It also offers a 5-day weather forecast with graphical trends and fun interactiv
 - This project uses 'Poetry' for dependency management
 - see the 'pyproject.toml' file for all required packages.
 
-### Weather from OpenWeatherMap • Made with Streamlit
+# Data Source & Tools :
+- Weather from OpenWeatherMap • Made with Streamlit
