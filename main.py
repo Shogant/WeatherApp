@@ -98,9 +98,6 @@ def get_weather(city,api_key, temp_selection, speed_selection):
             st.subheader(f"🗺️ {city.title()} on the Map")
             st.map(data={"lat": [lat], "lon": [lon]})
 
-            st.subheader("📘 Did you know ?")
-
-
     else:
         st.error("⚠️ Could not retrieve data. Please check the city name.")
 
@@ -152,13 +149,19 @@ def get_weekly_forcast (city, api_key):
             st.write(f"**{description.capitalize()}**")
             st.write(f"🌡️ Average Temperature : {avg_temp} °C")
 
-            dates.append(day.strftime('%a %d %b'))
+            dates.append(day.strftime('%d/%m/%y'))
             daily_temps.append(avg_temp)
 
 
 # ----- Plot using the forcast results :
 
-    # df = pd.DataFrame({"Date": dates,"Avg Temperature (°C)": daily_temps}) # set df
+    df = pd.DataFrame({
+        "Date": dates,
+        "Avg Temperature (°C)": daily_temps
+    })
+
+    df.set_index("Date", inplace=True)  # Make Date the X-axis
+    st.line_chart(df)
 
 #========================================== Main ========================================================
 
