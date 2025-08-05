@@ -1,8 +1,7 @@
 # MyWeatherApp 🌦️
 
 Welcome to my first ever web app!
-- Web Active Access:
-- https://shogantweatherapp.streamlit.app/
+- * https://shogantweatherapp.streamlit.app/ *
 ---
 
 ## About The App:
