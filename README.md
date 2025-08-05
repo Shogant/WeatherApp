@@ -19,11 +19,11 @@ It also offers a 5-day weather forecast with graphical trends and fun interactiv
 - Presents a 5-day forecast with visual summaries
 - Interactive UI and fun weather themed animations
 
-# Dependencies :
+## Dependencies :
 - This project uses 'Poetry' for dependency management
 - see the 'pyproject.toml' file for all required packages.
 
-# How To Run (Locally) :
+## How To Run (Locally) :
   1. In this repository on GitHub: https://github.com/Shogant/WeatherApp.git
      - Click the green '<> Code' button near the top-right.
      - Select 'Open with GitHub Desktop'.
@@ -41,5 +41,5 @@ It also offers a 5-day weather forecast with graphical trends and fun interactiv
       - in Terminal write : 'streamlit run main.py'
 
 
-# Data Source & Tools :
+## Data Source & Tools :
 - Weather from OpenWeatherMap • Made with Streamlit
