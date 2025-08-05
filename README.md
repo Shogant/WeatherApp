@@ -1,6 +1,7 @@
 # MyWeatherApp 🌦️
 
 Welcome to my first ever web app!
+- Web Active Access:
 - https://shogantweatherapp.streamlit.app/
 ---
 
@@ -21,6 +22,24 @@ It also offers a 5-day weather forecast with graphical trends and fun interactiv
 # Dependencies :
 - This project uses 'Poetry' for dependency management
 - see the 'pyproject.toml' file for all required packages.
+
+# How To Run (Locally) :
+  1. In this repository on GitHub: https://github.com/Shogant/WeatherApp.git
+     - Click the green '<> Code' button near the top-right.
+     - Select 'Open with GitHub Desktop'.
+  
+  2. In GitHub Desktop:
+     - Choose where you want to save this project locally
+     - Click 'Clone' and project will be downloded into you computer by GitHub Desktop.
+  
+  3. Install dependencies:
+     - using poetry ( if not insatll it first)
+     - if you do not have poetry use pip install -r requirements.txt via shell
+       
+   4. Run code locally:
+      - Add your own API Key first - you can find it at the code API Key secion api_key = "add yours"
+      - in Terminal write : 'streamlit run main.py'
+
 
 # Data Source & Tools :
 - Weather from OpenWeatherMap • Made with Streamlit
