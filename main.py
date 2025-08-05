@@ -25,7 +25,7 @@ st.set_page_config(page_title="Tanya's Weather App", page_icon="🌦️", layout
 
 # ---------- Header & Description  ----------
 st.title("🌦️  My Weather App 🌦️ ")
-st.markdown("#### Clouds are grey, skies can be blue,")
+st.markdown("#### Clouds are grey, skies are blue,")
 st.markdown("#### What’s your city’s weather? Let’s walk you through ! 📲✨.")
 st.divider()
 
