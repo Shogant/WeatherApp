@@ -20,11 +20,11 @@ api_key = "40ba2c4079b0ff1737c2229b6bc323ea"
 
 
 # ---------- Web Tab  ----------
-st.set_page_config(page_title="Tanya's Weather App", page_icon="🌦️", layout="wide")
+st.set_page_config(page_title="My Weather App", page_icon="🌦️", layout="wide")
 
 
 # ---------- Header & Description  ----------
-st.title("🌦️  My Weather App 🌦️ ")
+st.title(" My Weather App 🌦️ ")
 st.markdown("#### Clouds are grey, skies are blue,")
 st.markdown("#### What’s your city’s weather? Let’s walk you through ! 📲✨.")
 st.divider()
